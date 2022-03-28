@@ -1,14 +1,32 @@
-# format version 3.4 is compatible with docker engine 17.09.0+
+# format version 3.3 is compatible with docker engine 17.09.0+
 version: "3.3"
 
 services:
   db:
     build: "./mariadb"
+    volumes: ["./mariadb/data:/var/lib/mysql"]
+    networks: ["db-wordpress"]
     environment:
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-      - MYSQL_DATABASE=${MYSQL_DATABASE}
-      - MYSQL_USER=${MYSQL_USER}
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+
   wordpress:
     build: "./wordpress"
-    
+    volumes: ["./wordpress/data:/srv/www"]
+    networks: 
+      - db-wordpress
+      - wordpress-nginx
+
+  nginx:
+    build: "./nginx"
+    volumes: ["./wordpress/data:/srv/www"]
+    networks: ["wordpress-nginx"]
+    ports: ["80:80"]
+
+networks:
+  db-wordpress:
+    driver: bridge
+  wordpress-nginx:
+    driver: bridge

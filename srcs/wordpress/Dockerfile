@@ -1,4 +1,13 @@
 FROM alpine:3.15.2
 
-ADD https://wordpress.org/latest.tar.gz /var/www/html/wordpress.tar.gz
-RUN cd /var/www/html && tar -xf wordpress.tar.gz && rm -f wordpress.tar.gz && cd -
+ADD files/wordpress.tar.gz /root
+COPY files/run.sh /scripts/run.sh
+RUN chmod -R 755 /scripts
+
+RUN apk add php7 php7-fpm php7-opcache php7-gd php7-mysqli php7-zlib php7-curl php7-json
+RUN sed -i 's|^listen = 127.0.0.1:9000$|listen = 9000|g' /etc/php7/php-fpm.d/www.conf
+RUN sed -i 's|^;cgi.fix_pathinfo=1$|cgi.fix_pathinfo=0;|g' /etc/php7/php.ini
+
+EXPOSE 9000
+
+ENTRYPOINT ["/scripts/run.sh"]
