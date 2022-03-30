@@ -8,6 +8,7 @@ RUN chmod -R 755 /scripts
 
 RUN apk add php7 php7-fpm php7-opcache php7-gd php7-mysqli php7-zlib php7-curl php7-json
 RUN sed -i 's|^listen = 127.0.0.1:9000$|listen = 9000|g' /etc/php7/php-fpm.d/www.conf
+RUN sed -i 's|^;clear_env = no$|clear_env = no|g' /etc/php7/php-fpm.d/www.conf
 RUN sed -i 's|^;cgi.fix_pathinfo=1$|cgi.fix_pathinfo=0;|g' /etc/php7/php.ini
 
 EXPOSE 9000
