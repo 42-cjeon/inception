@@ -1,6 +1,8 @@
 FROM alpine:3.15.2
 
 ADD files/wordpress.tar.gz /root
+COPY files/wp-config.php /root/wp-config.php
+
 COPY files/run.sh /scripts/run.sh
 RUN chmod -R 755 /scripts
 
