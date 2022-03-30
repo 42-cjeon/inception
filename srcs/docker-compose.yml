@@ -15,6 +15,7 @@ services:
   wordpress:
     build: "./wordpress"
     volumes: ["./wordpress/data:/srv/www"]
+    depends_on: ["db"]
     networks: 
       - db-wordpress
       - wordpress-nginx
@@ -36,6 +37,7 @@ services:
   nginx:
     build: "./nginx"
     volumes: ["./wordpress/data:/srv/www"]
+    depends_on: ["wordpress"]
     networks: ["wordpress-nginx"]
     ports: ["80:80"]
 
