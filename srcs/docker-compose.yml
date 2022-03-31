@@ -39,7 +39,7 @@ services:
     volumes: ["./wordpress/data:/srv/www"]
     depends_on: ["wordpress"]
     networks: ["wordpress-nginx"]
-    ports: ["80:80"]
+    ports: ["443:443"]
 
 networks:
   db-wordpress:
