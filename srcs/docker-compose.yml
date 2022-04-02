@@ -2,10 +2,10 @@
 version: "3.3"
 
 services:
-  db:
+  mariadb:
     build: "./mariadb"
-    volumes: ["./mariadb/data:/var/lib/mysql"]
-    networks: ["db-wordpress"]
+    volumes: ["/home/cjeon/data/mariadb:/var/lib/mysql"]
+    networks: ["mariadb-wordpress"]
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
@@ -14,16 +14,16 @@ services:
 
   wordpress:
     build: "./wordpress"
-    volumes: ["./wordpress/data:/srv/www"]
-    depends_on: ["db"]
+    volumes: ["/home/cjeon/data/wordpress:/srv/www"]
+    depends_on: ["mariadb"]
     networks: 
-      - db-wordpress
+      - mariadb-wordpress
       - wordpress-nginx
     environment:
       DB_USER: ${MYSQL_USER}
       DB_NAME: ${MYSQL_DATABASE}
       DB_PASSWORD: ${MYSQL_PASSWORD}
-      DB_HOST: db
+      DB_HOST: mariadb
       WORDPRESS_AUTH_KEY: ${WORDPRESS_AUTH_KEY} 
       WORDPRESS_SECURE_AUTH_KEY: ${WORDPRESS_SECURE_AUTH_KEY}
       WORDPRESS_LOGGED_IN_KEY: ${WORDPRESS_LOGGED_IN_KEY}
@@ -33,16 +33,15 @@ services:
       WORDPRESS_LOGGED_IN_SALT: ${WORDPRESS_LOGGED_IN_SALT}
       WORDPRESS_NONCE_SALT: ${WORDPRESS_NONCE_SALT}
 
-
   nginx:
     build: "./nginx"
-    volumes: ["./wordpress/data:/srv/www"]
+    volumes: ["/home/cjeon/data/wordpress:/srv/www"]
     depends_on: ["wordpress"]
     networks: ["wordpress-nginx"]
     ports: ["443:443"]
 
 networks:
-  db-wordpress:
+  mariadb-wordpress:
     driver: bridge
   wordpress-nginx:
     driver: bridge
