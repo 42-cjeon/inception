@@ -20,4 +20,9 @@ if [ ! -d /var/lib/mysql/mysql ]; then
     } | /usr/bin/mysqld --user=mysql --bootstrap
 fi
 
+unset MYSQL_DATABASE
+unset MYSQL_USER
+unset MYSQL_PASSWORD
+unset MYSQL_ROOT_PASSWORD
+
 exec /usr/bin/mysqld --user=mysql --console
