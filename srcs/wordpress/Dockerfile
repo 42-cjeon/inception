@@ -1,14 +1,13 @@
 FROM alpine:3.15.2
 
-ADD files/wordpress.tar.gz /root
-COPY files/wp-config.php /root/wp-config.php
+ADD https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar /usr/local/bin/wp
+RUN chmod +x /usr/local/bin/wp
 
 COPY files/run.sh /scripts/run.sh
 RUN chmod -R 755 /scripts
 
-RUN apk add php7 php7-fpm php7-opcache php7-gd php7-mysqli php7-zlib php7-curl php7-json
+RUN apk add php7 php7-fpm php7-opcache php7-gd php7-mysqli php7-zlib php7-curl php7-json php7-phar mysql-client php-mbstring 
 RUN sed -i 's|^listen = 127.0.0.1:9000$|listen = 9000|g' /etc/php7/php-fpm.d/www.conf
-RUN sed -i 's|^;clear_env = no$|clear_env = no|g' /etc/php7/php-fpm.d/www.conf
 RUN sed -i 's|^;cgi.fix_pathinfo=1$|cgi.fix_pathinfo=0;|g' /etc/php7/php.ini
 
 EXPOSE 9000
