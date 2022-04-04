@@ -5,7 +5,8 @@ services:
   mariadb:
     build: "./mariadb"
     volumes: ["/home/cjeon/data/mariadb:/var/lib/mysql"]
-    networks: ["mariadb-wordpress"]
+    networks: 
+      - backend
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
@@ -15,10 +16,12 @@ services:
   wordpress:
     build: "./wordpress"
     volumes: ["/home/cjeon/data/wordpress:/srv/www"]
-    depends_on: ["mariadb"]
+    depends_on:
+      - mariadb
+      - redis
     networks: 
-      - mariadb-wordpress
-      - wordpress-nginx
+      - backend
+      - frontend
     environment:
       DB_USER: ${MYSQL_USER}
       DB_NAME: ${MYSQL_DATABASE}
@@ -30,15 +33,20 @@ services:
       WP_ADMIN_PASSWORD: ${WP_ADMIN_PASSWORD}
       WP_ADMIN_EMAIL: ${WP_ADMIN_EMAIL}
 
+  redis:
+    build: "./redis"
+    networks:
+      - backend
+
   nginx:
     build: "./nginx"
     volumes: ["/home/cjeon/data/wordpress:/srv/www"]
     depends_on: ["wordpress"]
-    networks: ["wordpress-nginx"]
+    networks: ["frontend"]
     ports: ["443:443"]
 
 networks:
-  mariadb-wordpress:
+  backend:
     driver: bridge
-  wordpress-nginx:
+  frontend:
     driver: bridge

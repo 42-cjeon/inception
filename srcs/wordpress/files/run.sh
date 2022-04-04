@@ -8,6 +8,8 @@ if [ ! -d '/srv/www/wordpress' ]; then
   wp core install --path=/srv/www/wordpress --url="$WP_URL" --title="$WP_TITLE" \
                   --admin_name="$WP_ADMIN_NAME" --admin_password="$WP_ADMIN_PASSWORD" \
                   --admin_email="$WP_ADMIN_EMAIL"
+  wp plugin install --path=/srv/www/wordpress redis-cache --activate
+  sed -i "/Add any custom values between/ a define( 'WP_REDIS_HOST', 'redis' );" /srv/www/wordpress/wp-config.php
   chown -R nobody:nobody /srv/www
 fi
 
