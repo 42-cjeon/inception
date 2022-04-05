@@ -41,7 +41,7 @@ services:
   nginx:
     build: "./nginx"
     volumes: ["/home/cjeon/data/wordpress:/srv/www"]
-    depends_on: ["wordpress"]
+    depends_on: ["wordpress", "mkdocs"]
     networks: ["frontend"]
     ports: ["443:443"]
 
@@ -51,6 +51,11 @@ services:
     ports: ["4242:22"]
     environment:
       SFTP_PASSWORD: ${SFTP_PASSWORD}
+
+  mkdocs:
+    build: "./mkdocs"
+    networks: 
+      - frontend
 
 networks:
   backend:
