@@ -6,7 +6,7 @@ services:
     build: mariadb
     container_name: mariadb
     restart: always
-    volumes: ["/home/cjeon/data/mariadb:/var/lib/mysql"]
+    volumes: ["/Users/anduuin/data/mariadb:/var/lib/mysql"]
     networks: 
       - backend
     environment:
@@ -19,7 +19,7 @@ services:
     build: wordpress
     container_name: wordpress
     restart: always
-    volumes: ["/home/cjeon/data/wordpress:/srv/www"]
+    volumes: ["/Users/anduuin/data/wordpress:/srv/www"]
     networks: 
       - backend
       - frontend
@@ -45,7 +45,7 @@ services:
     build: nginx
     container_name: nginx
     restart: always
-    volumes: ["/home/cjeon/data/wordpress:/srv/www"]
+    volumes: ["/Users/anduuin/data/wordpress:/srv/www"]
     networks: ["frontend"]
     ports: ["443:443"]
     environment:
@@ -55,7 +55,7 @@ services:
     build: sftp
     container_name: sftp
     restart: always
-    volumes: ["/home/cjeon/data/wordpress:/srv/www"]
+    volumes: ["/Users/anduuin/data/wordpress:/srv/www"]
     ports: ["4242:22"]
     environment:
       SFTP_PASSWORD: ${SFTP_PASSWORD}
