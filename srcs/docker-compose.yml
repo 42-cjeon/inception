@@ -62,10 +62,12 @@ services:
 
   mkdocs:
     build: mkdocs
-    restart: always
     container_name: mkdocs
-    networks: 
+    restart: always
+    networks:
       - frontend
+    environment:
+      SITE_URL: ${WP_URL}
 
 networks:
   backend:

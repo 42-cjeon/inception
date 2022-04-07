@@ -11,4 +11,4 @@ RUN mkdocs build
 
 EXPOSE 8000
 
-ENTRYPOINT ["uvicorn", "--host=0.0.0.0", "--app-dir=/scripts", "serve:app"]
+ENTRYPOINT ["/scripts/run.sh"]
