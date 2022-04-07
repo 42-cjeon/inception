@@ -2,6 +2,7 @@ FROM alpine:3.15.2
 
 COPY files/id_rsa /etc/ssh/id_rsa
 COPY files/id_rsa.pub /etc/ssh/id_rsa.pub
+RUN chmod 600 /etc/ssh/id_rsa
 
 COPY files/run.sh scripts/run.sh
 RUN chmod -R 755 /scripts

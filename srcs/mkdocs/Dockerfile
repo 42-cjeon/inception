@@ -1,9 +1,14 @@
 FROM alpine:3.15.2
 
 COPY files/links /srv/links
+COPY files/serve.py /scripts/serve.py
+
 RUN apk add python3 py3-pip
-RUN pip install mkdocs
+RUN pip install mkdocs uvicorn starlette
+
+WORKDIR /srv/links
+RUN mkdocs build
 
 EXPOSE 8000
 
-ENTRYPOINT ["mkdocs", "serve", "-a", "0.0.0.0:8000", "-f", "srv/links/mkdocs.yml"]
+ENTRYPOINT ["uvicorn", "--host=0.0.0.0", "--app-dir=/scripts", "serve:app"]
