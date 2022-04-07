@@ -19,7 +19,7 @@ if [ ! -d '/srv/www/wordpress' ]; then
   wait_service_port 30 "mariadb" "mariadb" 3306
   wp core config --path=/srv/www/wordpress --dbhost=mariadb \
                  --dbname="$DB_NAME" --dbuser="$DB_USER" --dbpass="$DB_PASSWORD"
-  wp core install --path=/srv/www/wordpress --url="$WP_URL" --title="$WP_TITLE" \
+  wp core install --path=/srv/www/wordpress --url="10.11.250.168" --title="$WP_TITLE" \
                   --admin_name="$WP_ADMIN_NAME" --admin_password="$WP_ADMIN_PASSWORD" \
                   --admin_email="$WP_ADMIN_EMAIL"
   wait_service_port 30 "redis" "redis" 6379
