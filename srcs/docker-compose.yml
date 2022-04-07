@@ -4,7 +4,7 @@ version: "3.3"
 services:
   mariadb:
     build: "./mariadb"
-    volumes: ["/Users/anduuin/data/mariadb:/var/lib/mysql"]
+    volumes: ["/home/cjeon/data/mariadb:/var/lib/mysql"]
     networks: 
       - backend
     environment:
@@ -15,7 +15,7 @@ services:
 
   wordpress:
     build: "./wordpress"
-    volumes: ["/Users/anduuin/data/wordpress:/srv/www"]
+    volumes: ["/home/cjeon/data/wordpress:/srv/www"]
     depends_on:
       - mariadb
       - redis
@@ -40,14 +40,14 @@ services:
 
   nginx:
     build: "./nginx"
-    volumes: ["/Users/anduuin/data/wordpress:/srv/www"]
+    volumes: ["/home/cjeon/data/wordpress:/srv/www"]
     depends_on: ["wordpress", "mkdocs"]
     networks: ["frontend"]
     ports: ["443:443"]
 
   sftp:
     build: "./sftp"
-    volumes: ["/Users/anduuin/data/wordpress:/srv/www"]
+    volumes: ["/home/cjeon/data/wordpress:/srv/www"]
     ports: ["4242:22"]
     environment:
       SFTP_PASSWORD: ${SFTP_PASSWORD}
