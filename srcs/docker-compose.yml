@@ -3,7 +3,9 @@ version: "3.3"
 
 services:
   mariadb:
-    build: "./mariadb"
+    build: mariadb
+    container_name: mariadb
+    restart: always
     volumes: ["/home/cjeon/data/mariadb:/var/lib/mysql"]
     networks: 
       - backend
@@ -14,11 +16,10 @@ services:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
 
   wordpress:
-    build: "./wordpress"
+    build: wordpress
+    container_name: wordpress
+    restart: always
     volumes: ["/home/cjeon/data/wordpress:/srv/www"]
-    depends_on:
-      - mariadb
-      - redis
     networks: 
       - backend
       - frontend
@@ -34,26 +35,33 @@ services:
       WP_ADMIN_EMAIL: ${WP_ADMIN_EMAIL}
 
   redis:
-    build: "./redis"
+    build: redis
+    container_name: redis
+    restart: always
     networks:
       - backend
 
   nginx:
-    build: "./nginx"
+    build: nginx
+    container_name: nginx
+    restart: always
     volumes: ["/home/cjeon/data/wordpress:/srv/www"]
-    depends_on: ["wordpress", "mkdocs"]
     networks: ["frontend"]
     ports: ["443:443"]
 
   sftp:
-    build: "./sftp"
+    build: sftp
+    container_name: sftp
+    restart: always
     volumes: ["/home/cjeon/data/wordpress:/srv/www"]
     ports: ["4242:22"]
     environment:
       SFTP_PASSWORD: ${SFTP_PASSWORD}
 
   mkdocs:
-    build: "./mkdocs"
+    build: mkdocs
+    restart: always
+    container_name: mkdocs
     networks: 
       - frontend
 
