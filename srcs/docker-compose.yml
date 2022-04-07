@@ -48,6 +48,8 @@ services:
     volumes: ["/home/cjeon/data/wordpress:/srv/www"]
     networks: ["frontend"]
     ports: ["443:443"]
+    environment:
+      SERVER_NAME: ${WP_URL}
 
   sftp:
     build: sftp
