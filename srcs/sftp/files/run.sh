@@ -15,10 +15,14 @@ function wait_directory_up() {
 }
 
 wait_directory_up 30 "wordpress"
-chgrp -R sftp www
 
 adduser -D -H -s /bin/sh sftp
 echo -e "$SFTP_PASSWORD\n$SFTP_PASSWORD" | passwd sftp
+
+adduser -D -s /bin/sh tunnel
+echo -e "$SFTP_PASSWORD\n$SFTP_PASSWORD" | passwd tunnel
+
+chgrp -R sftp /srv/www
 unset SFTP_PASSWORD
 
 /usr/sbin/sshd -h /etc/ssh/id_rsa -D

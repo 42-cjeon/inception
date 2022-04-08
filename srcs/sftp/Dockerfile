@@ -12,4 +12,8 @@ RUN echo "Match group sftp" >> /etc/ssh/sshd_config
 RUN echo "ChrootDirectory /srv" >> /etc/ssh/sshd_config
 RUN echo "ForceCommand internal-sftp" >> /etc/ssh/sshd_config
 
+RUN echo "Match group tunnel" >> /etc/ssh/sshd_config
+RUN echo "AllowTcpForwarding yes" >> /etc/ssh/sshd_config
+RUN echo "GatewayPorts yes" >> /etc/ssh/sshd_config
+
 ENTRYPOINT ["/scripts/run.sh"]
