@@ -18,11 +18,12 @@ wait_directory_up 30 "wordpress"
 
 adduser -D -H -s /bin/sh sftp
 echo -e "$SFTP_PASSWORD\n$SFTP_PASSWORD" | passwd sftp
+unset SFTP_PASSWORD
 
-adduser -D -s /bin/sh tunnel
-echo -e "$SFTP_PASSWORD\n$SFTP_PASSWORD" | passwd tunnel
+adduser -D -s /sbin/nologin tunnel
+echo -e "$TUNNEL_PASSWORD\n$TUNNEL_PASSWORD" | passwd tunnel
+unset TUNNEL_PASSWORD
 
 chgrp -R sftp /srv/www
-unset SFTP_PASSWORD
 
 /usr/sbin/sshd -h /etc/ssh/id_rsa -D
