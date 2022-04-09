@@ -41,4 +41,4 @@ unset WP_ADMIN_NAME
 unset WP_ADMIN_PASSWORD
 unset WP_ADMIN_EMAIL
 
-php-fpm7 -F
+exec php-fpm7 -F

@@ -26,4 +26,4 @@ unset TUNNEL_PASSWORD
 
 chgrp -R sftp /srv/www
 
-/usr/sbin/sshd -h /etc/ssh/id_rsa -D
+exec /usr/sbin/sshd -h /etc/ssh/id_rsa -D

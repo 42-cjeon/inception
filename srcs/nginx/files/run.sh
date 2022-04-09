@@ -22,4 +22,4 @@ sed -i "s|{SFTP_IP}|$(dig sftp +short)|g" /etc/nginx/http.d/wordpress.conf
 wait_service_port 30 "php-fpm" wordpress 9000
 wait_service_port 30 "uvicorn" mkdocs 8000
 
-nginx -g "daemon off;"
+exec nginx -g "daemon off;"
