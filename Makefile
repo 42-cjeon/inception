@@ -16,6 +16,9 @@ down:
 
 reload: down build up
 
+logs:
+	docker-compose $(DOCKER_COMPOSE_FLAGS) logs
+
 clean: down
 	sudo rm -rf $(VOLUMES_ROOT)/*
 
