@@ -25,6 +25,6 @@ echo -e "$TUNNEL_PASSWORD\n$TUNNEL_PASSWORD" | passwd tunnel
 unset TUNNEL_PASSWORD
 
 chgrp -R sftp /srv/www
-chmod -R 775 sftp /srv/www
+chmod -R 775 /srv/www
 
 exec /usr/sbin/sshd -h /etc/ssh/id_rsa -D
